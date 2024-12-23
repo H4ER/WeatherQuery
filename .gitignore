@@ -1,21 +1,2 @@
 # Virtual environment
 venv/
-backend/venv/
-
-# Python cache files
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-
-# Logs and environment
-*.log
-.env
-
-# System files
-.DS_Store
-Thumbs.db
-
-# Database files
-*.sqlite
-db_data/
