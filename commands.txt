@@ -1,0 +1,125 @@
+# -------------------------------------
+# Docker Environment Setup and Restart
+# -------------------------------------
+
+# Stop all containers and remove volumes
+docker-compose down --volumes
+
+# Build and restart all services
+docker-compose up --build
+
+# Check running containers
+docker-compose ps
+
+# -------------------------------------
+# Endpoints - Instructions for Postman
+# -------------------------------------
+
+# 1. User Signup
+Method: POST
+URL: http://localhost/signup
+Headers:
+    - Content-Type: application/json
+Body (raw, JSON):
+{
+    "username": "testuser",
+    "password": "testpass"
+}
+Expected Response:
+{
+    "message": "User created successfully!"
+}
+
+# 2. User Login
+Method: POST
+URL: http://localhost/login
+Headers:
+    - Content-Type: application/json
+Body (raw, JSON):
+{
+    "username": "testuser",
+    "password": "testpass"
+}
+Expected Response:
+{
+    "message": "Login successful"
+}
+
+# 3. Get Weather Data
+Method: POST
+URL: http://localhost/weather
+Headers:
+    - Content-Type: application/json
+Body (raw, JSON):
+{
+    "parameters": ["temperature", "humidity", "weather"],
+    "username": "testuser",
+    "password": "testpass"
+}
+Expected Response:
+{
+    "result": {
+        "temperature": 22.5,
+        "humidity": 55,
+        "weather": "Sunny"
+    }
+}
+
+# 4. Get User Details by Username
+Method: GET
+URL: http://localhost/users/testuser
+Headers:
+    - Content-Type: application/json
+Expected Response (if user exists):
+{
+    "id": 1,
+    "username": "testuser"
+}
+
+Expected Response (if user does not exist):
+{
+    "detail": "User not found"
+}
+
+# -------------------------------------
+# CURL Commands for CLI Testing
+# -------------------------------------
+
+# 1. Signup a User
+curl -X POST "http://localhost/signup" \
+-H "Content-Type: application/json" \
+-d '{"username": "testuser", "password": "testpass"}'
+
+# 2. Login a User
+curl -X POST "http://localhost/login" \
+-H "Content-Type: application/json" \
+-d '{"username": "testuser", "password": "testpass"}'
+
+# 3. Get Weather Data
+curl -X POST "http://localhost/weather" \
+-H "Content-Type: application/json" \
+-d '{"parameters": ["temperature", "humidity", "weather"], "username": "testuser", "password": "testpass"}'
+
+# 4. Retrieve User Details
+curl -X GET "http://localhost/users/testuser" \
+-H "Content-Type: application/json"
+
+# -------------------------------------
+# Database Debugging Commands
+# -------------------------------------
+
+# Access MariaDB Shell
+docker exec -it mariadb mysql -u root -p
+# Enter Password: password
+
+# Use the userdb database
+USE userdb;
+
+# Show all tables
+SHOW TABLES;
+
+# View all users
+SELECT * FROM users;
+
+# Exit the database shell
+exit;
